@@ -89,7 +89,7 @@ export function PropertyForm() {
         const imageUrls = await uploadImages();
         const slug = slugify(values.title);
         const { data: authData } = await supabase.auth.getUser();
-        const { error } = await supabase.from('properties').insert({
+        const { error } = await supabase.from<any, any>('properties').insert({
           ...values,
           slug,
           broker_id: authData.user?.id ?? null,
