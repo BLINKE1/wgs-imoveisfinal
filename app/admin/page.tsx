@@ -3,6 +3,13 @@ import { PropertyForm } from '@/components/property-form';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency } from '@/lib/utils';
 
+interface Property {
+  id: string; // ou number, dependendo do seu banco
+  title: string;
+  // adicione outros campos que você usa, como 'price', 'address', etc.
+}
+const [properties, setProperties] = useState<Property[]>([]);
+
 export default async function AdminPage() {
   const supabase = createClient();
   const { data: properties } = await supabase
