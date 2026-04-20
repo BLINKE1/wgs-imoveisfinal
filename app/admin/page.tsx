@@ -3,15 +3,20 @@ import { PropertyForm } from '@/components/property-form';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency } from '@/lib/utils';
 
+// 1. Mantenha a interface aqui
 interface Property {
-  id: string; // ou number, dependendo do seu banco
+  id: string;
   title: string;
-  // adicione outros campos que você usa, como 'price', 'address', etc.
+  price: number;
+  status: string;
+  city: string;
+  created_at: string;
 }
-const [properties, setProperties] = useState<Property[]>([]);
 
 export default async function AdminPage() {
   const supabase = createClient();
+  
+  // 2. A busca de dados já cria a variável 'properties' automaticamente
   const { data: properties } = await supabase
     .from('properties')
     .select('id,title,price,status,city,created_at')
@@ -36,8 +41,8 @@ export default async function AdminPage() {
           <section className="rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-soft">
             <h2 className="text-xl font-semibold">Últimos imóveis cadastrados</h2>
             <div className="mt-6 space-y-4">
-              {properties?.length ? (
-                properties.map((property) => (
+              {properties && properties.length > 0 ? (
+                properties.map((property: Property) => (
                   <div key={property.id} className="rounded-3xl border border-white/10 bg-black/30 p-4">
                     <div className="flex items-start justify-between gap-4">
                       <div>
